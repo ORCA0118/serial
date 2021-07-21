@@ -104,6 +104,9 @@ func (p *port) Read(b []byte) (n int, err error) {
 			err = fmt.Errorf("serial: could not select: %v", err)
 			return
 		}
+		if err == syscall.EINTR {
+			fmt.Errorf("serial: EINTR")
+		}
 	}
 	if !fdisset(fd, &rfds) {
 		// Timeout
